@@ -9,15 +9,21 @@ public class OpenHashTable {
 	private ArrayList<EmployeeData>[] hashTable; 
 	private int[] numInBucket;
 	
-	@SuppressWarnings("unchecked")
 	public OpenHashTable ( int hashSize ){
 		k = hashSize;
+		initializeArray();
+	} public OpenHashTable () {
+		initializeArray();
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void initializeArray () {
 		hashTable = new ArrayList[k];
 		numInBucket = new int[k];
 		for (int n = 0; n < k; n++) {
 			hashTable[n] = new ArrayList<EmployeeData>();
 		}
-	} public OpenHashTable () {}
+	}
 	
 	public int calcBucket ( int employeeNumber ) {
 		return (employeeNumber % k);
@@ -36,6 +42,8 @@ public class OpenHashTable {
 			int whichBucket = calcBucket(employeeNumber);
 			EmployeeData toReturn = hashTable[whichBucket].get(location);
 			hashTable[whichBucket].remove(location);
+			numInBucket[whichBucket]--;
+			numItems--;
 			return toReturn;
 		} else return null;
 	}
